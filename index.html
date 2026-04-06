@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Merigold School</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --burg:#7A1C2E;--burg-dark:#5C1220;--burg-deeper:#3D0B18;
+  --burg-light:#F5E8EB;--burg-mid:#C4546A;
+  --cream:#FBF7F2;--cream-dark:#F0E8DC;
+  --gold:#C9A84C;--gold-light:#F0DFA8;
+  --text:#1A0A0F;--text-mid:#6B4050;--text-soft:#9C7080
+}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--text)}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:68px;background:var(--burg-deeper);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100}
+.nav-left{display:flex;align-items:center;gap:14px}
+.crest{width:40px;height:40px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crest svg{width:22px;height:22px;fill:var(--burg-deeper)}
+.brand-name{font-size:18px;font-weight:400;color:#fff;letter-spacing:0.5px}
+.brand-sub{font-size:10px;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
+.nav-links{display:flex;gap:2px}
+.nav-btn{background:none;border:none;border-bottom:2px solid transparent;padding:8px 14px;font-size:13px;font-family:Georgia,serif;color:rgba(255,255,255,0.75);cursor:pointer;letter-spacing:0.3px;transition:all 0.15s}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.nav-btn.active{color:#fff;border-bottom:2px solid var(--gold)}
+.nav-enroll{background:var(--gold);color:var(--burg-deeper);border:none;padding:9px 22px;font-family:Georgia,serif;font-size:13px;letter-spacing:0.5px;cursor:pointer;border-radius:3px}
+.nav-enroll:hover{background:var(--gold-light)}
+.page{display:none}
+.page.active{display:block}
+.hero{background:var(--burg-deeper);padding:88px 36px 72px;text-align:center;border-bottom:3px solid var(--gold)}
+.hero-rule{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
+.hero-rule span{font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
+.rule-line{width:48px;height:1px;background:var(--gold);opacity:0.6}
+.hero h1{font-size:46px;font-weight:400;color:#fff;line-height:1.18;margin-bottom:18px;letter-spacing:-0.5px}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero-tagline{font-size:16px;color:rgba(255,255,255,0.72);max-width:500px;margin:0 auto 36px;line-height:1.8;font-style:italic}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:var(--burg-deeper);border:none;padding:13px 32px;font-family:Georgia,serif;font-size:14px;letter-spacing:0.5px;cursor:pointer;border-radius:3px}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.45);padding:13px 32px;font-family:Georgia,serif;font-size:14px;letter-spacing:0.5px;cursor:pointer;border-radius:3px}
+.btn-outline:hover{background:rgba(255,255,255,0.1)}
+.stats-wrap{padding:0 36px;max-width:900px;margin:0 auto}
+.stats-bar{display:flex;background:var(--cream);border:1px solid var(--cream-dark);border-top:3px solid var(--gold)}
+.stat{flex:1;text-align:center;padding:28px 20px;border-right:1px solid var(--cream-dark)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:30px;font-weight:400;color:var(--burg)}
+.stat-l{font-size:11px;color:var(--text-soft);margin-top:5px;letter-spacing:1px;text-transform:uppercase}
+.section{padding:72px 36px;max-width:900px;margin:0 auto}
+.section-wide{padding:72px 36px;background:var(--cream-dark)}
+.section-inner{max-width:900px;margin:0 auto}
+.sec-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec-eyebrow span{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+.eyebrow-line{flex:0 0 40px;height:1px;background:var(--gold)}
+.sec-title{font-size:30px;font-weight:400;color:var(--burg-deeper);margin-bottom:10px}
+.sec-sub{font-size:15px;color:var(--text-mid);max-width:520px;margin-bottom:40px;line-height:1.8;font-style:italic}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--cream-dark);border:1px solid var(--cream-dark)}
+.feat{background:var(--cream);padding:28px 24px}
+.feat-num{font-size:32px;color:var(--burg-light);line-height:1;margin-bottom:14px}
+.feat h3{font-size:15px;font-weight:400;color:var(--burg-deeper);margin-bottom:8px}
+.feat p{font-size:13px;color:var(--text-mid);line-height:1.7}
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ach-main{background:var(--burg-deeper);border-radius:4px;padding:36px;grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:240px;border-left:4px solid var(--gold)}
+.ach-label{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.ach-main h3{font-size:20px;font-weight:400;color:#fff;margin-bottom:10px;line-height:1.3}
+.ach-main p{font-size:13px;color:rgba(255,255,255,0.72);line-height:1.7}
+.ach-sm{background:var(--cream);border:1px solid var(--cream-dark);border-radius:4px;padding:24px;border-top:3px solid var(--gold)}
+.ach-sm h3{font-size:14px;font-weight:400;color:var(--burg-deeper);margin-bottom:7px}
+.ach-sm p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gal-item{background:var(--cream);border:1px solid var(--cream-dark);border-radius:4px;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s}
+.gal-item:hover{border-color:var(--gold);background:var(--burg-light)}
+.gal-item svg{width:26px;height:26px;stroke:var(--burg);fill:none;stroke-width:1.4}
+.gal-item span{font-size:12px;color:var(--text-mid);letter-spacing:1px;text-transform:uppercase}
+.gal-msg{display:none;margin-top:16px;padding:14px 20px;background:var(--burg-light);border:1px solid var(--cream-dark);border-radius:3px;font-size:13px;color:var(--burg-deeper);text-align:center;font-style:italic}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.testi{background:var(--cream);border:1px solid var(--cream-dark);border-radius:4px;padding:28px;border-top:3px solid var(--gold)}
+.quote-mark{font-size:40px;color:var(--burg-light);line-height:0.8;margin-bottom:12px}
+.testi p{font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:16px;font-style:italic}
+.tauth{display:flex;align-items:center;gap:12px}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--burg-light);color:var(--burg);flex-shrink:0}
+.tname{font-size:13px;color:var(--burg-deeper)}
+.trole{font-size:11px;color:var(--text-soft)}
+.cta-box{background:var(--burg-deeper);border-top:3px solid var(--gold);border-bottom:3px solid var(--gold);padding:64px 36px;text-align:center}
+.cta-box h2{font-size:30px;font-weight:400;color:#fff;margin-bottom:10px}
+.cta-box p{font-size:15px;color:rgba(255,255,255,0.7);margin-bottom:28px;font-style:italic}
+.cta-row{display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.cta-input{flex:1;min-width:180px;padding:12px 18px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#fff;font-size:13px;font-family:Georgia,serif;border-radius:3px;outline:none}
+.cta-input::placeholder{color:rgba(255,255,255,0.4)}
+.cta-btn{background:var(--gold);color:var(--burg-deeper);border:none;padding:12px 26px;font-family:Georgia,serif;font-size:13px;border-radius:3px;cursor:pointer}
+.toast{display:none;padding:12px 20px;border-radius:3px;font-size:13px;text-align:center;margin-top:14px;font-family:Georgia,serif;color:#FBF7F2}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.about-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:4px;padding:26px;border-top:3px solid var(--gold)}
+.about-card h3{font-size:16px;font-weight:400;color:var(--burg-deeper);margin-bottom:10px}
+.about-card p{font-size:13px;color:var(--text-mid);line-height:1.8}
+.contact-form{background:var(--cream);border:1px solid var(--cream-dark);border-radius:4px;padding:36px;max-width:540px;margin:0 auto}
+.form-row{margin-bottom:20px}
+.form-row label{display:block;font-size:12px;color:var(--text-soft);margin-bottom:7px;letter-spacing:1px;text-transform:uppercase}
+.form-row input,.form-row textarea,.form-row select{width:100%;padding:11px 14px;border:1px solid var(--cream-dark);border-radius:3px;font-size:14px;font-family:Georgia,serif;background:#fff;color:var(--text);outline:none}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--burg-mid)}
+.form-row textarea{height:110px;resize:vertical}
+.submit-btn{background:var(--burg);color:#fff;border:none;padding:12px 32px;font-family:Georgia,serif;font-size:14px;letter-spacing:0.5px;cursor:pointer;border-radius:3px;width:100%}
+.submit-btn:hover{background:var(--burg-dark)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(61,11,24,0.75);z-index:999;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--cream);border:1px solid var(--cream-dark);border-top:4px solid var(--gold);border-radius:4px;padding:36px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.modal-header h2{font-size:22px;font-weight:400;color:var(--burg-deeper)}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-soft);line-height:1;padding:4px}
+.modal-close:hover{color:var(--burg)}
+footer{background:var(--burg-deeper);border-top:2px solid var(--gold);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.6)}
+.footer-tag{font-size:12px;color:var(--gold);letter-spacing:1px}
+@media(max-width:640px){
+  nav{padding:0 16px}
+  .nav-links{display:none}
+  .hero{padding:56px 16px 44px}
+  .hero h1{font-size:28px}
+  .stats-wrap{padding:0}
+  .stats-bar{flex-wrap:wrap}
+  .stat{flex:1 1 45%;border-right:none;border-bottom:1px solid var(--cream-dark)}
+  .section{padding:48px 16px}
+  .section-wide{padding:48px 16px}
+  .ach-grid,.about-grid{grid-template-columns:1fr}
+  .ach-main{grid-row:auto}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  footer{padding:20px 16px;flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="crest">
+      <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">Merigold School</div>
+      <div class="brand-sub">Est. excellence in education</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('home',this)">Home</button>
+    <button class="nav-btn" onclick="showPage('about',this)">About</button>
+    <button class="nav-btn" onclick="showPage('achievements',this)">Achievements</button>
+    <button class="nav-btn" onclick="showPage('gallery',this)">Gallery</button>
+    <button class="nav-btn" onclick="showPage('contact',this)">Contact</button>
+  </div>
+  <button class="nav-enroll" onclick="openModal()">Enroll now</button>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-rule"><div class="rule-line"></div><span>Merigold School</span><div class="rule-line"></div></div>
+    <h1>Where young minds<br><em>bloom and grow</em></h1>
+    <p class="hero-tagline">Nurturing curiosity, creativity, and character &mdash; preparing students for a life of purpose and excellence.</p>
+    <div class="hero-btns">
+      <button class="btn-gold" onclick="showPage('about',document.querySelectorAll('.nav-btn')[1])">Discover our school</button>
+      <button class="btn-outline" onclick="showPage('contact',document.querySelectorAll('.nav-btn')[4])">Book a visit</button>
+    </div>
+  </div>
+  <div class="stats-wrap">
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-n" id="s1">0</div><div class="stat-l">Students enrolled</div></div>
+      <div class="stat"><div class="stat-n" id="s2">0%</div><div class="stat-l">Pass rate</div></div>
+      <div class="stat"><div class="stat-n" id="s3">0</div><div class="stat-l">Qualified teachers</div></div>
+      <div class="stat"><div class="stat-n" id="s4">0</div><div class="stat-l">Years of excellence</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-eyebrow"><div class="eyebrow-line"></div><span>Why choose us</span></div>
+    <div class="sec-title">A tradition of holistic excellence</div>
+    <div class="sec-sub">Education that goes beyond textbooks &mdash; building confident, compassionate, and curious individuals.</div>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-num">01</div><h3>Academic rigour</h3><p>A comprehensive curriculum that builds strong foundations and prepares students for an ever-changing world.</p></div>
+      <div class="feat"><div class="feat-num">02</div><h3>Expert faculty</h3><p>Experienced, dedicated teachers who mentor students and inspire a lifelong passion for learning.</p></div>
+      <div class="feat"><div class="feat-num">03</div><h3>Sports &amp; the arts</h3><p>A rich programme of sports, music, drama, and clubs that develops well-rounded, confident personalities.</p></div>
+      <div class="feat"><div class="feat-num">04</div><h3>Safe &amp; nurturing</h3><p>Modern facilities within a caring, inclusive environment where every child is valued and supported.</p></div>
+    </div>
+  </div>
+  <div class="section-wide">
+    <div class="section-inner">
+      <div class="sec-eyebrow"><div class="eyebrow-line"></div><span>Testimonials</span></div>
+      <div class="sec-title">Voices of our community</div>
+      <div class="testi-grid">
+        <div class="testi"><div class="quote-mark">"</div><p>Merigold has been truly transformative for my daughter. The teachers are invested in every child's growth in a way that is rare to find.</p><div class="tauth"><div class="av">PS</div><div><div class="tname">Priya Sharma</div><div class="trole">Parent &middot; Grade 7</div></div></div></div>
+        <div class="testi"><div class="quote-mark">"</div><p>The balance of academics and extracurriculars is outstanding. My son discovered his passion for robotics here and has not looked back.</p><div class="tauth"><div class="av">RK</div><div><div class="tname">Rahul Kulkarni</div><div class="trole">Parent &middot; Grade 10</div></div></div></div>
+        <div class="testi"><div class="quote-mark">"</div><p>From the infrastructure to the caring staff, every aspect of Merigold reflects a genuine commitment to excellence in education.</p><div class="tauth"><div class="av">AM</div><div><div class="tname">Anjali Mehta</div><div class="trole">Parent &middot; Grade 3</div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <div class="hero-rule" style="margin-bottom:20px"><div class="rule-line"></div><span>Admissions open</span><div class="rule-line"></div></div>
+    <h2>Join the Merigold family</h2>
+    <p>Admissions are open for the 2025&ndash;26 academic year. Leave your email and we will be in touch.</p>
+    <div class="cta-row">
+      <input class="cta-input" id="cta-email" type="email" placeholder="Your email address"/>
+      <button class="cta-btn" onclick="submitEmail()">Request information</button>
+    </div>
+    <div class="toast" id="cta-toast"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="hero" style="padding:60px 36px 52px">
+    <div class="hero-rule"><div class="rule-line"></div><span>About us</span><div class="rule-line"></div></div>
+    <h1 style="font-size:36px">Our story &amp; mission</h1>
+    <p class="hero-tagline">Founded over 25 years ago, Merigold School has been a cornerstone of quality education in our community.</p>
+  </div>
+  <div class="section">
+    <div class="about-grid">
+      <div class="about-card"><h3>Our mission</h3><p>To provide every child with an enriching, inclusive, and future-ready education that builds character as much as academic skill.</p></div>
+      <div class="about-card"><h3>Our vision</h3><p>A community where every student leaves Merigold with the confidence, skills, and values to make a meaningful difference in the world.</p></div>
+      <div class="about-card"><h3>Infrastructure</h3><p>State-of-the-art classrooms, science labs, a well-stocked library, sports courts, a dedicated auditorium, and an art room.</p></div>
+      <div class="about-card"><h3>Community</h3><p>We foster a strong parent-teacher partnership and host regular events that bring our entire community together.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+<div id="page-achievements" class="page">
+  <div class="hero" style="padding:60px 36px 52px">
+    <div class="hero-rule"><div class="rule-line"></div><span>Achievements</span><div class="rule-line"></div></div>
+    <h1 style="font-size:36px">Proud milestones</h1>
+    <p class="hero-tagline">Years of dedication, hard work, and passion reflected in our students' remarkable accomplishments.</p>
+  </div>
+  <div class="section">
+    <div class="ach-grid">
+      <div class="ach-main">
+        <div class="ach-label">Featured achievement</div>
+        <h3>National Science Olympiad &mdash; 1st place</h3>
+        <p>Our students brought home gold for the third consecutive year, demonstrating exceptional problem-solving and scientific thinking at the national level.</p>
+      </div>
+      <div class="ach-sm"><h3>Annual cultural festival</h3><p>600+ students performed across music, dance, and drama at our flagship annual event, drawing the entire community together.</p></div>
+      <div class="ach-sm"><h3>100% board results</h3><p>Every student cleared their board examinations with distinction for five consecutive academic years &mdash; a record we are proud of.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="page-gallery" class="page">
+  <div class="hero" style="padding:60px 36px 52px">
+    <div class="hero-rule"><div class="rule-line"></div><span>Gallery</span><div class="rule-line"></div></div>
+    <h1 style="font-size:36px">Life at Merigold</h1>
+    <p class="hero-tagline">A glimpse into our vibrant campus &mdash; where learning, laughter, and achievement come together every day.</p>
+  </div>
+  <div class="section">
+    <div class="gallery-grid">
+      <div class="gal-item" onclick="galClick('Classrooms')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Classrooms</span></div>
+      <div class="gal-item" onclick="galClick('Events')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span>Events</span></div>
+      <div class="gal-item" onclick="galClick('Sports')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span>Sports</span></div>
+      <div class="gal-item" onclick="galClick('Library')"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Library</span></div>
+      <div class="gal-item" onclick="galClick('Awards')"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Awards</span></div>
+      <div class="gal-item" onclick="galClick('Science labs')"><svg viewBox="0 0 24 24"><path d="M9 3v11l-4 6h14l-4-6V3"/><line x1="9" y1="3" x2="15" y2="3"/></svg><span>Science labs</span></div>
+    </div>
+    <div class="gal-msg" id="gal-msg"></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page">
+  <div class="hero" style="padding:60px 36px 52px">
+    <div class="hero-rule"><div class="rule-line"></div><span>Contact us</span><div class="rule-line"></div></div>
+    <h1 style="font-size:36px">Get in touch</h1>
+    <p class="hero-tagline">We would love to hear from you. Fill in the form and our team will respond within 24 hours.</p>
+  </div>
+  <div class="section">
+    <div class="contact-form">
+      <div class="form-row"><label>Full name</label><input type="text" id="c-name" placeholder="Your full name"/></div>
+      <div class="form-row"><label>Email address</label><input type="email" id="c-email" placeholder="your@email.com"/></div>
+      <div class="form-row"><label>Enquiry type</label><select id="c-type"><option>Admissions</option><option>Academics</option><option>Facilities</option><option>Other</option></select></div>
+      <div class="form-row"><label>Your message</label><textarea id="c-msg" placeholder="Write your message here..."></textarea></div>
+      <button class="submit-btn" onclick="submitContact()">Send message</button>
+      <div class="toast" id="contact-toast"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ENROLL MODAL -->
+<div class="modal-overlay" id="enroll-modal" onclick="overlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Enrollment enquiry</h2>
+      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    </div>
+    <div class="form-row"><label>Child's full name</label><input type="text" id="e-name" placeholder="Full name"/></div>
+    <div class="form-row"><label>Grade applying for</label><select id="e-grade"><option>Grade 1</option><option>Grade 2</option><option>Grade 3</option><option>Grade 4</option><option>Grade 5</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option></select></div>
+    <div class="form-row"><label>Parent email</label><input type="email" id="e-email" placeholder="your@email.com"/></div>
+    <div class="form-row"><label>Contact number</label><input type="tel" id="e-phone" placeholder="+91 XXXXX XXXXX"/></div>
+    <button class="submit-btn" onclick="submitEnroll()">Submit enquiry</button>
+    <div class="toast" id="enroll-toast"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">&copy; 2025 Merigold School. All rights reserved.</div>
+  <div class="footer-tag">Nurturing bright futures since 2000</div>
+</footer>
+
+<script>
+function showPage(pageId, btn) {
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
+  var p = document.getElementById('page-' + pageId);
+  if (p) p.classList.add('active');
+  var btns = document.querySelectorAll('.nav-btn');
+  for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+  if (pageId === 'home') animateStats();
+}
+
+function animateStats() {
+  var targets = {s1:1200, s2:95, s3:80, s4:25};
+  var ids = ['s1','s2','s3','s4'];
+  for (var k = 0; k < ids.length; k++) {
+    (function(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var end = targets[id];
+      var isP = (id === 's2');
+      var cur = 0, inc = end / 80;
+      var iv = setInterval(function() {
+        cur = Math.min(cur + inc, end);
+        el.textContent = Math.round(cur) + (isP ? '%' : '+');
+        if (cur >= end) { el.textContent = end + (isP ? '%' : '+'); clearInterval(iv); }
+      }, 16);
+    })(ids[k]);
+  }
+}
+
+window.onload = function() { animateStats(); };
+
+function showToast(id, msg, ok) {
+  var t = document.getElementById(id);
+  if (!t) return;
+  t.style.display = 'block';
+  t.style.background = ok ? '#5C1220' : '#993C1D';
+  t.textContent = msg;
+}
+
+function submitEmail() {
+  var v = document.getElementById('cta-email').value.trim();
+  if (!v || v.indexOf('@') === -1) { showToast('cta-toast','Please enter a valid email address.',false); return; }
+  showToast('cta-toast','Thank you! We will be in touch shortly.',true);
+  document.getElementById('cta-email').value = '';
+}
+
+function submitContact() {
+  var n = document.getElementById('c-name').value.trim();
+  var e = document.getElementById('c-email').value.trim();
+  var m = document.getElementById('c-msg').value.trim();
+  if (!n || !e || !m) { showToast('contact-toast','Please fill in all fields before submitting.',false); return; }
+  showToast('contact-toast','Message received! We will respond within 24 hours.',true);
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-email').value = '';
+  document.getElementById('c-msg').value = '';
+}
+
+function openModal() { document.getElementById('enroll-modal').classList.add('open'); }
+function closeModal() { document.getElementById('enroll-modal').classList.remove('open'); }
+function overlayClick(e) { if (e.target.id === 'enroll-modal') closeModal(); }
+
+function submitEnroll() {
+  var n = document.getElementById('e-name').value.trim();
+  var e = document.getElementById('e-email').value.trim();
+  if (!n || !e) { showToast('enroll-toast','Please fill in the child\'s name and your email.',false); return; }
+  showToast('enroll-toast','Enquiry submitted! Our admissions team will contact you soon.',true);
+  setTimeout(function() { closeModal(); }, 2500);
+}
+
+function galClick(name) {
+  var m = document.getElementById('gal-msg');
+  m.style.display = 'block';
+  m.textContent = '"' + name + '" \u2014 Replace these tiles with real photos using <img> tags.';
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
